@@ -48,3 +48,19 @@ async def get_ancestors(
         "max_depth": max_depth,
         "ancestors": await adapter.get_ancestors(unit_id, max_depth),
     }
+
+
+@app.get("/units/{unit_id}/predecessors")
+async def get_predecessors(
+    unit_id: str,
+    backend: BackendName = BackendName.RECURSIVE_SQL,
+    max_depth: int = 20,
+):
+    adapter = adapters[backend]
+
+    return {
+        "unit_id": unit_id,
+        "backend": backend.value,
+        "max_depth": max_depth,
+        "predecessors": await adapter.get_predecessors(unit_id, max_depth),
+    }
